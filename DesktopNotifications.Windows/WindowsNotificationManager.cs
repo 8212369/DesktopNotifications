@@ -127,9 +127,21 @@ namespace DesktopNotifications.Windows
 
             xw.WriteStartElement("toast");
 
+            xw.WriteStartElement("audio");
+            xw.WriteAttributeString("src", "ms-winsoundevent:Notification.Reminder");
+            xw.WriteEndElement();
+
             xw.WriteStartElement("visual");
 
             xw.WriteStartElement("binding");
+
+            if ((notification.ImagePath != null) && (notification.ImagePath.Length != 0))
+            {
+                xw.WriteStartElement("image");
+                xw.WriteAttributeString("src", notification.ImagePath);
+                xw.WriteAttributeString("placement", "appLogoOverride");
+                xw.WriteEndElement();
+            }
 
             xw.WriteAttributeString("template", "ToastGeneric");
 
@@ -172,6 +184,12 @@ namespace DesktopNotifications.Windows
 
             builder.AddText(notification.Title);
             builder.AddText(notification.Body);
+
+            if ((notification.ImagePath != null) && (notification.ImagePath.Length != 0)) {
+                builder.AddAppLogoOverride(new Uri(notification.ImagePath));
+            }
+
+            builder.AddAudio(new Uri("ms-winsoundevent:Notification.Reminder"));
 
             foreach (var (title, actionId) in notification.Buttons)
             {
