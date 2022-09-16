@@ -17,6 +17,10 @@ namespace DesktopNotifications
 
         public string? ImagePath { get; set; }
 
+        // NOTE: This only works on packaged app (Android or WinRT)
+        // The sound name needs to be in resource folder
+        public string? SoundUri { get; set; }
+
         public List<(string Title, string ActionId)> Buttons { get; }
     }
 }
